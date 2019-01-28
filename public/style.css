@@ -1,0 +1,20 @@
+html,
+body {
+	/* background-image: url('./images/back.jpg'); */
+	/* color: #670404; */
+	color: #83020b;
+	background-color: #f6eee4;
+}
+
+.container {
+	background-color: #f6eee4;
+	border: 1px solid #83020b;
+}
+
+.img-border {
+	border: 10px solid white;
+}
+
+/* hr {
+	border: 0.4px solid #670404;
+} */
