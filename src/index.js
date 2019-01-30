@@ -15,6 +15,12 @@ const session = require("express-session");
 // gives us access to req.body. w/o this we'd have to look at the raw data
 let bodyParser = require("body-parser");
 const expressLayouts = require("express-ejs-layouts");
+
+// Reset Email Dependencies
+const async = require("async");
+const nodemailer = require("nodemailer");
+const crypto = require("crypto");
+
 let mongoose = require("mongoose");
 let database = require("../.secrets/database");
 //Passport Config
