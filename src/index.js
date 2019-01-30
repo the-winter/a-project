@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-
+const passport = require("passport");
 let personRoute = require("./routes/person");
 let customerRoute = require("./routes/customer");
 let routes = require("./routes/routes");
@@ -8,11 +8,17 @@ let users = require("./routes/users");
 
 let path = require("path");
 
+// these are so we can display 'youre now registered' message after redirect
+const flash = require("connect-flash");
+const session = require("express-session");
+
 // gives us access to req.body. w/o this we'd have to look at the raw data
 let bodyParser = require("body-parser");
 const expressLayouts = require("express-ejs-layouts");
 let mongoose = require("mongoose");
 let database = require("../.secrets/database");
+//Passport Config
+require("../config/passport")(passport);
 
 // get the connection string
 const uri = database.databaseStr;
@@ -41,15 +47,47 @@ app.use((req, res, next) => {
     next();
 });
 
+// EJS
 app.set("views", path.join(__dirname, "../views"));
 app.set("view engine", "ejs");
+app.use(expressLayouts);
+
+// Express Session
+app.use(
+    session({
+        secret: "keyboard cat",
+        resave: true,
+        saveUninitialized: true
+        // cookie: { secure: true }
+    })
+);
+
+// Passport Middleware
+// initialises our local strategy
+// this should go after Express Session
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Connect Flash
+// gives us access to req.flash
+app.use(flash());
+
+// Global Vars
+// different colours for different msgs
+app.use((req, res, next) => {
+    //set global vars
+    res.locals.success_msg = req.flash("success_msg");
+    res.locals.error_msg = req.flash("error_msg");
+    res.locals.error = req.flash("error");
+    next();
+});
 
 // Express body parser
 app.use(express.urlencoded({ extended: true }));
 // express also has its own bodyparser in current version, we didn't need to import it like this
 app.use(bodyParser.json());
-app.use(expressLayouts);
 
+// Routes
 app.use("/", routes);
 app.use("/users", users);
 // app.use(personRoute);
