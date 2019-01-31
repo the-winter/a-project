@@ -2,6 +2,12 @@ let express = require("express");
 let router = express.Router();
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
+let database = require("../../.secrets/database");
+
+// Reset Email Dependencies
+const async = require("async");
+const nodemailer = require("nodemailer");
+const crypto = require("crypto");
 
 // User Model
 const User = require("../models/User");
@@ -110,7 +116,68 @@ router.get("/logout", (req, res) => {
 });
 
 router.get("/forgot", (req, res) => {
+    console.log("database: ", database.email);
     res.render("forgot");
+});
+
+router.post("/forgot", (req, res, next) => {
+    // TODO email cannot be blank
+
+    //check user exists
+    User.findOne({ email: req.body.email }).then(user => {
+        if (!user) {
+            req.flash("error_msg", "No account with that email address");
+            return res.redirect("/users/forgot");
+        } else {
+            const token = crypto.randomBytes(20).toString("hex");
+
+            user.resetPasswordToken = token;
+            user.resetPasswordExpires = Date.now() + 360000;
+
+            user.save(function(err, user) {
+                if (err) throw err;
+                console.log("saved user: ", user);
+            });
+
+            let transporter = nodemailer.createTransport({
+                host: database.host,
+                port: 587,
+                secure: false, // true for 465, false for other ports
+                auth: {
+                    user: database.email, // generated ethereal user
+                    pass: database.password // generated ethereal password
+                },
+                logger: true
+            });
+
+            let mailOptions = {
+                from: `"CB website" <${database.email}>`, // sender address
+                to: user.email, // list of receivers
+                subject: "Password reset request", // Subject line
+                text: "Hello world?", // plain text body
+                html: `Hello <strong>${
+                    user.name
+                }</strong><br><br>You recently requested a password reset link. Please click <a href="http://localhost:3000/resetpassword/${
+                    user.resetPasswordToken
+                }">here</a> to reset your password.` // html body
+            };
+
+            // console.log("user", user);
+            transporter.sendMail(mailOptions, (err, response) => {
+                if (err) {
+                    console.log("sendmail error: ", err);
+                } else {
+                    req.flash(
+                        "success_msg",
+                        `A password reset link has been sent to ${
+                            user.email
+                        }. It may take a few minutes to arrive`
+                    );
+                    res.redirect("/users/forgot");
+                }
+            });
+        }
+    });
 });
 
 module.exports = router;

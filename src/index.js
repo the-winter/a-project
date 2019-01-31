@@ -1,8 +1,6 @@
 const express = require("express");
 const app = express();
 const passport = require("passport");
-let personRoute = require("./routes/person");
-let customerRoute = require("./routes/customer");
 let routes = require("./routes/routes");
 let users = require("./routes/users");
 
@@ -15,11 +13,6 @@ const session = require("express-session");
 // gives us access to req.body. w/o this we'd have to look at the raw data
 let bodyParser = require("body-parser");
 const expressLayouts = require("express-ejs-layouts");
-
-// Reset Email Dependencies
-const async = require("async");
-const nodemailer = require("nodemailer");
-const crypto = require("crypto");
 
 let mongoose = require("mongoose");
 let database = require("../.secrets/database");
@@ -96,9 +89,6 @@ app.use(bodyParser.json());
 // Routes
 app.use("/", routes);
 app.use("/users", users);
-// app.use(personRoute);
-// app.use(customerRoute);
-app.use;
 
 // express.static enables to serve static content via express
 // tells express to use a specific static file handler

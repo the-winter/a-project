@@ -1,7 +1,8 @@
 <div class="row">
     <div class="col">
-        <form action="/forgot" method="POST">
+        <form action="/users/forgot" method="POST">
             <legend>Forgot Password</legend>
+            <% include ./partials/messages %>
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" name="email" autofocus class="form-control">
