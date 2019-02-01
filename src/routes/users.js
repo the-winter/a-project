@@ -3,6 +3,7 @@ let router = express.Router();
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
 let database = require("../../.secrets/database");
+let whitelist = require("../../.secrets/allow");
 var moment = require("moment");
 
 // Reset Email Dependencies
@@ -15,12 +16,12 @@ const User = require("../models/User");
 
 // Login Page
 router.get("/login", (req, res) => {
-    res.render("login");
+    res.render("login", { name: "" });
 });
 
 // Register Page
 router.get("/register", (req, res) => {
-    res.render("register");
+    res.render("register", { name: "" });
 });
 
 // Register Handle
@@ -43,6 +44,20 @@ router.post("/register", (req, res) => {
     // 2 check pass length
     if (password.length < 6) {
         errors.push({ msg: "Password should be at least 6 characters" });
+    }
+    // check if registered email whitelisted
+    if (email) {
+        const enteredEmail = email;
+        const exists = whitelist.filter(email => {
+            return email.email === enteredEmail;
+        });
+        // if not on whitelist then user may not register
+        if (exists.length < 1) {
+            console.log("exists: ", exists);
+            return res.send(
+                "Sorry that email address does not exist in our database. Registration is only available for members"
+            );
+        }
     }
 
     if (errors.length > 0) {
@@ -115,12 +130,10 @@ router.get("/logout", (req, res) => {
 });
 
 router.get("/forgot", (req, res) => {
-    res.render("forgot");
+    res.render("forgot", { name: "" });
 });
 
 router.post("/forgot", (req, res, next) => {
-    // TODO email cannot be blank
-
     //check user exists
     User.findOne({ email: req.body.email }).then(user => {
         if (!user) {
@@ -141,8 +154,8 @@ router.post("/forgot", (req, res, next) => {
                 port: 587,
                 secure: false, // true for 465, false for other ports
                 auth: {
-                    user: database.email, // generated ethereal user
-                    pass: database.password // generated ethereal password
+                    user: database.email,
+                    pass: database.password
                 },
                 logger: true
             });
@@ -188,7 +201,7 @@ router.get("/resetpassword/:token", (req, res) => {
             req.flash("error_msg", "Password token invalid or has expired");
             return res.redirect("/users/forgot");
         } else {
-            res.render("reset", { token: req.params.token });
+            res.render("reset", { token: req.params.token, name: "" });
             // check token is valid
             // moment('2010-10-20').isSameOrBefore('2010-10-21');
         }
@@ -197,6 +210,8 @@ router.get("/resetpassword/:token", (req, res) => {
 
 router.post("/resetpassword/:token", (req, res) => {
     // find the user
+
+    // TODO make it work with resetpasswordexpires
     User.findOne({
         resetPasswordToken: req.params.token
         // resetPasswordExpires: { $gte: Date.now() }
