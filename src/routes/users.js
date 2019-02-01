@@ -3,6 +3,7 @@ let router = express.Router();
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
 let database = require("../../.secrets/database");
+var moment = require("moment");
 
 // Reset Email Dependencies
 const async = require("async");
@@ -26,7 +27,6 @@ router.get("/register", (req, res) => {
 router.post("/register", (req, res) => {
     const { name, email, password, password2 } = req.body;
     let errors = [];
-    console.log("body: ", req.body);
 
     //Validations
 
@@ -109,14 +109,12 @@ router.post("/login", (req, res, next) => {
 });
 
 router.get("/logout", (req, res) => {
-    console.log("req: ", req);
     req.logout();
     req.flash("success_msg", "You are logged out");
     res.redirect("/users/login");
 });
 
 router.get("/forgot", (req, res) => {
-    console.log("database: ", database.email);
     res.render("forgot");
 });
 
@@ -131,12 +129,11 @@ router.post("/forgot", (req, res, next) => {
         } else {
             const token = crypto.randomBytes(20).toString("hex");
 
-            user.resetPasswordToken = token;
-            user.resetPasswordExpires = Date.now() + 360000;
+            user.set({ resetPasswordToken: token });
+            user.set({ resetPasswordExpires: Date.now() + 360000 });
 
             user.save(function(err, user) {
                 if (err) throw err;
-                console.log("saved user: ", user);
             });
 
             let transporter = nodemailer.createTransport({
@@ -157,12 +154,11 @@ router.post("/forgot", (req, res, next) => {
                 text: "Hello world?", // plain text body
                 html: `Hello <strong>${
                     user.name
-                }</strong><br><br>You recently requested a password reset link. Please click <a href="http://localhost:3000/resetpassword/${
+                }</strong><br><br>You recently requested a password reset link. Please click <a href="http://localhost:3000/users/resetpassword/${
                     user.resetPasswordToken
                 }">here</a> to reset your password.` // html body
             };
 
-            // console.log("user", user);
             transporter.sendMail(mailOptions, (err, response) => {
                 if (err) {
                     console.log("sendmail error: ", err);
@@ -176,6 +172,86 @@ router.post("/forgot", (req, res, next) => {
                     res.redirect("/users/forgot");
                 }
             });
+        }
+    });
+});
+
+router.get("/resetpassword/:token", (req, res) => {
+    // TODO whats wrong with the resetpasswordexpires line? it doesnt work
+    console.log("token get: ", req.params.token);
+    User.findOne({
+        resetPasswordToken: req.params.token
+        // resetPasswordExpires: { $gt: Date.now() }
+    }).then(user => {
+        // TODO
+        if (!user) {
+            req.flash("error_msg", "Password token invalid or has expired");
+            return res.redirect("/users/forgot");
+        } else {
+            res.render("reset", { token: req.params.token });
+            // check token is valid
+            // moment('2010-10-20').isSameOrBefore('2010-10-21');
+        }
+    });
+});
+
+router.post("/resetpassword/:token", (req, res) => {
+    // find the user
+    User.findOne({
+        resetPasswordToken: req.params.token
+        // resetPasswordExpires: { $gte: Date.now() }
+    }).then(user => {
+        // if no user, redirect to forgot password page
+        if (!user) {
+            req.flash("error_msg", "Password token invalid or has expired");
+            return res.redirect("/users/forgot");
+        } else {
+            const { password, password2 } = req.body;
+            let errors = [];
+            // //first do password validation
+            // // 1 check required fields
+            if (!password || !password2) {
+                errors.push({ msg: "Please fill in all fields" });
+            }
+            // 2 check passwords match
+            if (password !== password2) {
+                errors.push({ msg: "Passwords do not match" });
+            }
+            // 2 check pass length
+            if (password.length < 6) {
+                errors.push({
+                    msg: "Password should be at least 6 characters"
+                });
+            }
+            if (errors.length > 0) {
+                //TODO render these errors instead of flash
+                errors.forEach(error => {
+                    req.flash("error_msg", error.msg);
+                });
+                return res.redirect("/users/resetpassword/" + req.params.token);
+            } else {
+                // Hash Password
+                bcrypt.genSalt(10, (err, salt) =>
+                    bcrypt.hash(password, salt, (err, hash) => {
+                        if (err) throw err;
+                        //set password to hashed
+                        //save user
+                        user.set({ password: hash });
+                        user.set({ resetPasswordToken: undefined });
+                        user.set({ resetPasswordExpires: undefined });
+                        user.save()
+                            .then(user => {
+                                // we have to use the flash msg b/c we're redirecting so we're storing it in the session
+                                req.flash(
+                                    "success_msg",
+                                    "You have successfully reset your password"
+                                );
+                                res.redirect("/users/login");
+                            })
+                            .catch(err => console.log(err));
+                    })
+                );
+            }
         }
     });
 });

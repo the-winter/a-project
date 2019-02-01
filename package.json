@@ -20,6 +20,7 @@
 		"express": "^4.16.4",
 		"express-ejs-layouts": "^2.5.0",
 		"express-session": "^1.15.6",
+		"moment": "^2.24.0",
 		"mongoose": "^5.4.6",
 		"nodemailer": "^4.0.1",
 		"passport": "^0.4.0",
