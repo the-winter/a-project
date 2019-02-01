@@ -537,8 +537,8 @@ pre code {
 
 .container {
   width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
+  padding-right: 20px;
+  padding-left: 20px;
   margin-right: auto;
   margin-left: auto;
 }
@@ -4171,7 +4171,7 @@ input[type="button"].btn-block {
   align-items: center;
   -ms-flex-pack: justify;
   justify-content: space-between;
-  padding: 0.5rem 1rem;
+  padding: 20px;
 }
 
 .navbar > .container,
@@ -4582,6 +4582,7 @@ input[type="button"].btn-block {
   background-clip: border-box;
   /* border: 1px solid rgba(0, 0, 0, 0.125); */
   /* border-radius: 0.25rem; */
+  margin-bottom: 30px;
 }
 
 .card > hr {
@@ -5108,7 +5109,7 @@ a.badge-dark:hover, a.badge-dark:focus {
   padding: 0.75rem 1.25rem;
   margin-bottom: 1rem;
   border: 1px solid transparent;
-  border-radius: 0.25rem;
+  /* border-radius: 0.25rem; */
 }
 
 .alert-heading {
@@ -5134,7 +5135,7 @@ a.badge-dark:hover, a.badge-dark:focus {
 .alert-primary {
   color: #004085;
   background-color: #cce5ff;
-  border-color: #b8daff;
+  /* border-color: #b8daff; */
 }
 
 .alert-primary hr {
@@ -5162,7 +5163,7 @@ a.badge-dark:hover, a.badge-dark:focus {
 .alert-success {
   color: #155724;
   background-color: #d4edda;
-  border-color: #c3e6cb;
+  /* border-color: #c3e6cb; */
 }
 
 .alert-success hr {
@@ -5204,7 +5205,7 @@ a.badge-dark:hover, a.badge-dark:focus {
 .alert-danger {
   color: #721c24;
   background-color: #f8d7da;
-  border-color: #f5c6cb;
+  /* border-color: #f5c6cb; */
 }
 
 .alert-danger hr {

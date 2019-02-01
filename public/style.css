@@ -1,18 +1,24 @@
 html,
 body {
-    /* background-image: url('./images/back.jpg'); */
-    /* color: #670404; */
-    color: #83020b;
+    font-family: garmond;
     background-color: #f6eee4;
 }
 
 .container {
+    border-style: solid;
+    border-width: 15px;
     background-color: #f6eee4;
-    border: 1px solid #83020b;
+    -webkit-border-image: url(/images/border.png) 28 round; /* Safari 3.1-5 */
+    -o-border-image: url(/images/border.png) 28 round; /* Opera 11-12.1 */
+    border-image: url(/images/border.png) 28 round;
+    margin-top: 10px;
+    margin-bottom: 30px;
 }
 
 .img-border {
     border: 10px solid white;
+    margin-top: 20px;
+    margin-bottom: 30px;
 }
 
 .my-input {
@@ -24,6 +30,35 @@ body {
     border-color: none;
     box-shadow: none;
 }
-/* hr {
-	border: 0.4px solid #670404;
-} */
+
+.title {
+    font-family: "IM Fell French Canon SC", serif;
+}
+
+.tagline {
+    margin-bottom: 0px;
+    margin-left: 130px;
+}
+
+.events {
+    margin-top: 20px;
+}
+
+.events h3 {
+    margin-bottom: 1rem;
+}
+
+.events h5 {
+    margin-bottom: 1rem;
+    text-decoration: underline;
+}
+
+.sister-logo {
+    padding-top: 15px;
+    padding-bottom: 20px;
+}
+
+.registration-warning {
+    color: red;
+    text-align: center;
+}

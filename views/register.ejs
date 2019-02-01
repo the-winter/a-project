@@ -2,7 +2,7 @@
 	<div class="col-md-6 m-auto">
 		<div class="card card-body">
 			<h3 class="text-center mb-3"><i class="fas fa-user-plus"></i> Register</h3>
-			<p>Please note registration is only available to choir members.</p>
+			<p class="registration-warning">Please note registration is only available to choir members.</p>
 			<% include ./partials/messages %>
 			<form action="/users/register" method="POST">
 				<div class="form-group">
@@ -51,7 +51,8 @@
 				</div>
 				<button type="submit" >Register</button>
 			</form>
-			<p class="lead mt-4">Have An Account? <a href="/users/login">Login</a></p>
+			<br>
+			<p>Have An Account? <a href="/users/login">Login</a></p>
 		</div>
 	</div>
 </div>

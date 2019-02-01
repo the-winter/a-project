@@ -1,15 +1,17 @@
-<div class="row">
-    <div class="col">
-        <form action="/users/forgot" method="POST">
-            <legend>Forgot Password</legend>
-            <% include ./partials/messages %>
-            <div class="form-group my-input">
-                <label for="email">Email</label>
-                <input type="email" name="email" autofocus class="form-control">
-            </div>
-            <div class="form-group my-input">
-                <input type="submit" class="btn btn-primary" value="Reset Password">
-            </div>
-        </form>
+<div class="row mt-5">
+    <div class="col-md-6 m-auto">
+            <div class="card card-body">
+                <form action="/users/forgot" method="POST">
+                    <h3 class="text-center mb-3"><i class="fas fa-sign-in-alt"></i> Forgot Password</h3>
+                    <% include ./partials/messages %>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control">
+                    </div>
+                    <div class="form-group my-input">
+                        <input type="submit" value="Reset Password">
+                    </div>
+            </form>
+        </div>
     </div>
 </div>

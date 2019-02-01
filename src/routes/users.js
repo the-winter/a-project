@@ -53,7 +53,32 @@ router.post("/register", (req, res) => {
         });
         // if not on whitelist then user may not register
         if (exists.length < 1) {
-            console.log("exists: ", exists);
+            // notify me of the registration attempt
+            let transporter = nodemailer.createTransport({
+                host: database.host,
+                port: 587,
+                secure: false, // true for 465, false for other ports
+                auth: {
+                    user: database.email,
+                    pass: database.password
+                },
+                logger: true
+            });
+
+            let mailOptions = {
+                from: `"CB website" <${database.email}>`, // sender address
+                to: database.personal, // list of receivers
+                subject: "Unathorized registration attempt", // Subject line
+                text: "hi", // plain text body
+                html: `${enteredEmail} attempted to register an account.` // html body
+            };
+
+            transporter.sendMail(mailOptions, (err, response) => {
+                if (err) {
+                    console.log("sendmail error: ", err);
+                }
+            });
+
             return res.send(
                 "Sorry that email address does not exist in our database. Registration is only available for members"
             );
@@ -64,7 +89,7 @@ router.post("/register", (req, res) => {
         // we dont want the form to completely clear
         res.render("register", {
             errors,
-            name,
+            name: "", // TODO bugfix: find another way to do login-dependent rendering
             email,
             password,
             password2
@@ -164,7 +189,7 @@ router.post("/forgot", (req, res, next) => {
                 from: `"CB website" <${database.email}>`, // sender address
                 to: user.email, // list of receivers
                 subject: "Password reset request", // Subject line
-                text: "Hello world?", // plain text body
+                text: "stuff", // plain text body
                 html: `Hello <strong>${
                     user.name
                 }</strong><br><br>You recently requested a password reset link. Please click <a href="http://localhost:3000/users/resetpassword/${
@@ -191,12 +216,11 @@ router.post("/forgot", (req, res, next) => {
 
 router.get("/resetpassword/:token", (req, res) => {
     // TODO whats wrong with the resetpasswordexpires line? it doesnt work
-    console.log("token get: ", req.params.token);
+
     User.findOne({
         resetPasswordToken: req.params.token
         // resetPasswordExpires: { $gt: Date.now() }
     }).then(user => {
-        // TODO
         if (!user) {
             req.flash("error_msg", "Password token invalid or has expired");
             return res.redirect("/users/forgot");

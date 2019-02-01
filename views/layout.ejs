@@ -6,12 +6,7 @@
 	<title>Page Title</title>
 	<link href="/bootstrap.css" rel="stylesheet" type="text/css" />
 	<link href="/style.css" rel="stylesheet" type="text/css" />
-	<!-- <link
-			rel="stylesheet"
-			href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-			integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-			crossorigin="anonymous"
-		/> -->
+	<link href="https://fonts.googleapis.com/css?family=IM+Fell+French+Canon+SC" rel="stylesheet">
 </head>
 
 <body>
@@ -19,12 +14,12 @@
 
 		<nav class="navbar navbar-expand-lg row-fluid nav-fill w-100">
 			<a class="navbar-brand"><img width="100px" src="/images/logo_transparent.png" /></a>
-			<div>
+			<div class="title">
 				<h1>Српски Хор Црвени Божури</h1>
 				<h2>Serbian Choir Red Peonies</h2>
 			</div>
 
-			<% if (name !== '') { %>
+			<% if (locals.login !== undefined) { %>
 				<a class="nav-item nav-link" href="/users/logout" tabindex="-1" aria-disabled="true">Logout</a>
 			<% } else { %>
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
@@ -33,9 +28,7 @@
 			   </button>
 			   <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
 				   <div class="navbar-nav ml-auto">
-					   <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
-					   <!-- <a class="nav-item nav-link" href="#">Performances</a> -->
-			   
+					   <a class="nav-item nav-link" href="/">Home <span class="sr-only">(current)</span></a>   
 					   <a class="nav-item nav-link" href="/users/login" tabindex="-1" aria-disabled="true">Members</a>
 				   </div>
 			   </div>
@@ -47,7 +40,7 @@
 		<hr />
 		<div class="row">
 			<div class="col">
-				<p>Experience the quintessential sounds of Serbia and beyond</p>
+				<p class="tagline" style="margin-bottom: 0px;"><i>Experience the quintessential sounds of Serbia and beyond...</i></p>
 			</div>
 		</div>
 		<hr />
