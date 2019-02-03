@@ -52,7 +52,7 @@ $ npm run dev
 - Nodemailer
 - Passport
 
-Thanks Traversy Media tutorials for guidance with building this website
+Thanks Traversy Media tutorials for guidance with building the login system
 
 
 
