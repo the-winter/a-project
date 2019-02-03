@@ -12,7 +12,7 @@
 <body>
 	<div class="container">
 
-		<nav class="navbar navbar-expand-lg row-fluid nav-fill w-100">
+		<nav class="navbar navbar-expand-lg row-fluid ">
 			<a class="navbar-brand"><img width="100px" src="/images/logo_transparent.png" /></a>
 			<div class="title">
 				<h1>Српски Хор Црвени Божури</h1>
@@ -22,9 +22,9 @@
 			<% if (locals.login !== undefined) { %>
 				<a class="nav-item nav-link" href="/users/logout" tabindex="-1" aria-disabled="true">Logout</a>
 			<% } else { %>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
+				<button class="navbar-toggler float-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
 				aria-expanded="false" aria-label="Toggle navigation">
-				   <span class="navbar-toggler-icon"></span>
+				   <span class="navbar-toggler-icon">Menu</span>
 			   </button>
 			   <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
 				   <div class="navbar-nav ml-auto">
@@ -46,6 +46,23 @@
 		<hr />
 
 		<%-body%>
+		<hr class="footer-liner" />
+		<div class="footer">
+				<div class="row">
+				  <div class="col-sm-12">
+					  <p> Connect with us:&nbsp;
+					  <a href="https://www.facebook.com/Crvenibozuri/" target="_blank"><img src="/images/face.png" style="width:25px; height:25px;" />
+						<a href="#" target="_blank"><img src="/images/yt.png" style="width:25px; height:25px;" />
+					  </a>&nbsp; | &nbsp; crvenibozuriperth@gmail.com</p>
+	
+					  <p>
+						© 2017 Crveni Božuri.
+					  </p>
+				  </div>
+				</div>
+			  </div>
+			</div>
+		</div>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
 	 crossorigin="anonymous"></script>

@@ -4236,6 +4236,8 @@ input[type="button"].btn-block {
 }
 
 .navbar-toggler {
+  color: blue;
+
   padding: 0.25rem 0.75rem;
   font-size: 1.25rem;
   line-height: 1;
@@ -4253,6 +4255,7 @@ input[type="button"].btn-block {
 }
 
 .navbar-toggler-icon {
+  text-decoration: underline;
   display: inline-block;
   width: 1.5em;
   height: 1.5em;
@@ -4370,7 +4373,7 @@ input[type="button"].btn-block {
   }
   .navbar-expand-lg .navbar-nav .nav-link {
     padding-right: 0.5rem;
-    padding-left: 0.5rem;
+    padding-left: 1rem;
   }
   .navbar-expand-lg > .container,
   .navbar-expand-lg > .container-fluid {
@@ -4412,7 +4415,7 @@ input[type="button"].btn-block {
   }
   .navbar-expand-xl .navbar-nav .nav-link {
     padding-right: 0.5rem;
-    padding-left: 0.5rem;
+    padding-left: 1rem;
   }
   .navbar-expand-xl > .container,
   .navbar-expand-xl > .container-fluid {

@@ -4,6 +4,12 @@ body {
     background-color: #f6eee4;
 }
 
+p,
+b,
+a {
+    font-size: 1.1rem;
+}
+
 .container {
     border-style: solid;
     border-width: 15px;
@@ -58,7 +64,51 @@ body {
     padding-bottom: 20px;
 }
 
+.cb-dvd img {
+    max-width: 110px;
+}
+.newspaper {
+    width: 250px;
+    margin-left: 15px;
+    margin-bottom: 10px;
+}
+
+.paragraph {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.footer-liner {
+    margin-top: 50px;
+}
+
+.footer {
+    margin-top: 20px;
+    /* padding: 20px 20px 0px 20px; */
+    /* background-color: #83020b; */
+    text-align: center;
+}
+
 .registration-warning {
     color: red;
     text-align: center;
+}
+
+@media screen and (max-width: 419px) {
+    .newspaper {
+        width: 100%;
+        margin-left: 0px;
+    }
+}
+
+@media screen and (min-width: 420px) and (max-width: 767px) {
+    .newspaper {
+        width: 150px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    .newspaper {
+        width: 250px;
+    }
 }
