@@ -4,9 +4,9 @@
 
 Designed and implemented community choir website with member-only login functionality.
 
-![](/images/screen1.png)
+![](../../images/screen1.png)
 
-![](/images/screen2.png)
+![](../../images/screen2.png)
 
 ## Features
 
