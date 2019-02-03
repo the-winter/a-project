@@ -16,12 +16,12 @@ const User = require("../models/User");
 
 // Login Page
 router.get("/login", (req, res) => {
-    res.render("login", { name: "" });
+    res.render("login");
 });
 
 // Register Page
 router.get("/register", (req, res) => {
-    res.render("register", { name: "" });
+    res.render("register");
 });
 
 // Register Handle
@@ -89,7 +89,7 @@ router.post("/register", (req, res) => {
         // we dont want the form to completely clear
         res.render("register", {
             errors,
-            name: "", // TODO bugfix: find another way to do login-dependent rendering
+            name,
             email,
             password,
             password2
@@ -155,7 +155,7 @@ router.get("/logout", (req, res) => {
 });
 
 router.get("/forgot", (req, res) => {
-    res.render("forgot", { name: "" });
+    res.render("forgot");
 });
 
 router.post("/forgot", (req, res, next) => {
@@ -225,7 +225,7 @@ router.get("/resetpassword/:token", (req, res) => {
             req.flash("error_msg", "Password token invalid or has expired");
             return res.redirect("/users/forgot");
         } else {
-            res.render("reset", { token: req.params.token, name: "" });
+            res.render("reset", { token: req.params.token });
             // check token is valid
             // moment('2010-10-20').isSameOrBefore('2010-10-21');
         }
