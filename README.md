@@ -2,7 +2,7 @@
 
 ## Description
 
-Designed and implemented a community choir website with member-only login functionality.
+Designed and implemented a website with member-only login functionality.
 
 ![](/public/images/screen1.png)
 
