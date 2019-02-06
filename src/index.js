@@ -16,6 +16,13 @@ const expressLayouts = require("express-ejs-layouts");
 
 let mongoose = require("mongoose");
 let database = require("../.secrets/database");
+
+// file uploading
+const multer = require("multer");
+const GridFsStorage = require("multer-gridfs-storage");
+const Grid = require("gridfs-stream");
+const methodOverride = require("method-override");
+const crypto = require("crypto");
 //Passport Config
 require("../config/passport")(passport);
 
@@ -24,10 +31,7 @@ const uri = database.databaseStr;
 
 // connect to mongo
 mongoose
-    .connect(
-        uri,
-        { useNewUrlParser: true }
-    )
+    .connect(uri, { useNewUrlParser: true })
     .then(() => {
         console.log("MongoDB connected");
     })
@@ -50,6 +54,8 @@ app.use((req, res, next) => {
 app.set("views", path.join(__dirname, "../views"));
 app.set("view engine", "ejs");
 app.use(expressLayouts);
+// we want to use a qs when creating our form in order to make a delete request
+app.use(methodOverride("_method"));
 
 // Express Session
 app.use(
@@ -60,6 +66,41 @@ app.use(
         // cookie: { secure: true }
     })
 );
+
+// init gfs
+let gfs;
+
+db.once("open", function() {
+    // init stream
+    gfs = Grid(db.db, mongoose.mongo);
+    gfs.collection("uploads");
+});
+
+// Create storage engine
+const storage = new GridFsStorage({
+    url: uri,
+    options: {
+        useNewUrlParser: true
+    },
+    file: (req, file) => {
+        return new Promise((resolve, reject) => {
+            crypto.randomBytes(16, (err, buf) => {
+                if (err) {
+                    return reject(err);
+                }
+                const filename =
+                    buf.toString("hex") + path.extname(file.originalname);
+                const fileInfo = {
+                    filename: filename,
+                    bucketName: "uploads" // bucketname should match collection name in gfs.collection()
+                };
+                resolve(fileInfo);
+            });
+        });
+    }
+});
+
+const upload = multer({ storage });
 
 // Passport Middleware
 // initialises our local strategy
@@ -89,6 +130,13 @@ app.use(bodyParser.json());
 // Routes
 app.use("/", routes);
 app.use("/users", users);
+
+// TODO correct config for this route to work in routes.js
+// uploads single file as opposed to many
+// name 'file' comes from input name=file
+app.post("/upload", upload.single("file"), (req, res) => {
+    res.json({ file: req.file });
+});
 
 // express.static enables to serve static content via express
 // tells express to use a specific static file handler

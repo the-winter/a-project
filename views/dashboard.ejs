@@ -1,3 +1,11 @@
 <h1 class="mt-4">Dashboard</h1>
 <p class="lead mb-3">Welcome <%= name %></p>
+<!-- enctype required when using a file field -->
+<form action="/upload" method="POST" enctype="multipart/form-data">
+    <div class="custom-file mb-3">
+        <input type="file" name="file" id="file" class="custom-file-input">
+        <label for="file" class="custom-file-label">Choose File</label>
+        <input type="submit" value="Submit">
+    </div>
+</form>
 
