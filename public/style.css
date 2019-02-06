@@ -62,6 +62,7 @@ a {
 .sister-logo {
     padding-top: 15px;
     padding-bottom: 20px;
+    width: 100px;
 }
 
 .cb-dvd img {
@@ -76,6 +77,10 @@ a {
 .paragraph {
     margin-top: 50px;
     margin-bottom: 50px;
+}
+
+#slider {
+    background-color: black;
 }
 
 .footer-liner {
@@ -101,14 +106,74 @@ a {
     }
 }
 
-@media screen and (min-width: 420px) and (max-width: 767px) {
-    .newspaper {
-        width: 150px;
+/* Mobile Landscape */
+@media only screen and (max-width: 419px) {
+    .tagline {
+        margin-left: 0px;
+    }
+
+    .carousel-item img {
+        max-height: 150px;
+        width: auto;
+        margin: auto;
     }
 }
 
-@media screen and (min-width: 768px) and (max-width: 991px) {
+@media only screen and (min-width: 420px) and (max-width: 767px) {
+    .tagline {
+        margin-left: 0px;
+    }
+
+    .newspaper {
+        width: 150px;
+    }
+
+    .carousel-item img {
+        max-height: 250px;
+        width: auto;
+        margin: auto;
+    }
+
+    .set-height {
+        height: 250px;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
     .newspaper {
         width: 250px;
+    }
+    .carousel-inner > .slider-container > .carousel-item > img {
+        max-height: 350px;
+        width: auto;
+        margin: auto;
+    }
+
+    .set-height {
+        height: 350px;
+    }
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1119px) {
+    .carousel-inner > .slider-container > .carousel-item > img {
+        max-height: 450px;
+        width: auto;
+        margin: auto;
+    }
+
+    .set-height {
+        height: 450px;
+    }
+}
+
+@media only screen and (min-width: 1119px) {
+    .carousel-inner > .slider-container > .carousel-item > img {
+        max-height: 500px;
+        width: auto;
+        margin: auto;
+    }
+
+    .set-height {
+        height: 500px;
     }
 }
