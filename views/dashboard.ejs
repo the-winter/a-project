@@ -1,5 +1,4 @@
-<h1 class="mt-4">Dashboard</h1>
-<p class="lead mb-3">Welcome <%= name %></p>
+<h3 class="lead mb-3">Welcome <%= name %></h3>
 <!-- enctype required when using a file field -->
 <form action="/upload" method="POST" enctype="multipart/form-data">
     <div class="custom-file mb-3">
@@ -8,4 +7,21 @@
         <input type="submit" value="Submit">
     </div>
 </form>
+<hr>
+<% if (files) { %>
+<% files.forEach(function(file) { %>
+    <div class="card">
+        <%= file.filename %>
+        <!-- we're using method override to delete files, so it wont really be a post request
+        it will be a delete request
+        -->
+        <form method="POST" action="/files/<%= file._id %>?_method=DELETE">
+            <button> X </button>
+        </form>
+    </div>
+    
+<% }) %>
+<% } else { %>
+    <p>no files to show</p>
+<% } %>
 

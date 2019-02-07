@@ -59,8 +59,13 @@ router.get("/gallery", (req, res) => {
 });
 
 router.get("/dashboard", ensureAuthenticated, (req, res) => {
-    res.render("dashboard", {
-        name: req.user.name
+    gfs.files.find().toArray((err, files) => {
+        //check if files
+        if (!files || files.length === 0) {
+            res.render("dashboard", { name: req.user.name, files: false });
+        } else {
+            res.render("dashboard", { name: req.user.name, files: files });
+        }
     });
 });
 
@@ -99,5 +104,43 @@ router.get("/files/:filename", (req, res) => {
         return res.json(file);
     });
 });
+
+//delete file
+router.delete("/files/:id", (req, res) => {
+    gfs.remove({ _id: req.params.id, root: "uploads" }, (err, gridStore) => {
+        console.log(req.params.id);
+        if (err) {
+            console.log("err: ", err);
+            return res.status(404).json({ err: err });
+        }
+        console.log("hello");
+        res.redirect("/dashboard");
+    });
+});
+// @route GET /download/:filename
+// @desc  Download single file object
+// app.get('/download/:filename', (req, res) => {
+//     gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
+//       // Check if file
+//       if (!file || file.length === 0) {
+//         return res.status(404).json({
+//           err: 'No file exists'
+//         });
+//       }
+//       // File exists
+//       res.set('Content-Type', file.contentType);
+//       res.set('Content-Disposition', 'attachment; filename="' + file.filename + '"');
+//       // streaming from gridfs
+//       var readstream = gfs.createReadStream({
+//         filename: req.params.filename
+//       });
+//       //error handling, e.g. file does not exist
+//       readstream.on('error', function (err) {
+//         console.log('An error occurred!', err);
+//         throw err;
+//       });
+//       readstream.pipe(res);
+//     });
+//   });
 
 module.exports = router;
