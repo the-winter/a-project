@@ -8,6 +8,7 @@ const GridFsStorage = require("multer-gridfs-storage");
 const Grid = require("gridfs-stream");
 const methodOverride = require("method-override");
 const crypto = require("crypto");
+let path = require("path");
 
 let mongoose = require("mongoose");
 const db = require("../../config/conenction");
@@ -117,6 +118,7 @@ router.delete("/files/:id", (req, res) => {
         res.redirect("/dashboard");
     });
 });
+
 // @route GET /download/:filename
 // @desc  Download single file object
 // app.get('/download/:filename', (req, res) => {
