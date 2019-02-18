@@ -22,7 +22,7 @@ $ npm install
 ```
 #### secrets folder
 
-- secrets.json
+- database.js
 ```
 const config = {
     databaseStr:
