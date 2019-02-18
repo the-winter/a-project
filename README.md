@@ -23,6 +23,8 @@ $ npm install
 #### secrets folder
 
 - database.js
+
+config for both db and nodemailer
 ```
 const config = {
     databaseStr:
