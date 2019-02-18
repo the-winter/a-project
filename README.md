@@ -20,6 +20,33 @@ Designed and implemented a website with member-only login functionality.
 ```
 $ npm install 
 ```
+#### secrets folder
+
+- secrets.json
+```
+const config = {
+    databaseStr:
+        "", // db string
+    host: "", // e.g. smtp.ethereal.email
+    email: "", // sender email
+    password: "", //sender pasword
+    personal: "" // your email
+};
+
+module.exports = config;
+```
+
+- allow.js
+
+collection of whitelisted email addresses
+```
+const list = [
+    { email: "" //email address 1 },
+    { email: "" // email 2 etc }
+];
+
+module.exports = list;
+```
 ```
 # Run with Nodemon
 $ npm run dev
