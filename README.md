@@ -14,6 +14,7 @@ Designed and implemented a website with member-only login functionality.
 - a hidden registration page
 - login/registration server-side validation system
 - the option to reset password
+- file uploading once logged in
 
 ## Usage
 
@@ -72,6 +73,7 @@ $ npm run dev
 ### Database
 
 - MongoDB (Atlas)
+- gridfs
 - Mongoose
 
 ### Middleware etc.
